@@ -69,5 +69,8 @@ Rails.application.configure do
   # config.action_cable.disable_request_forgery_protection = true
 
   # Use memory store for bot sessions.
+
+  config.hosts << /.*\.ngrok-free\.app/
+
   config.telegram_updates_controller.session_store = :memory_store
 end
