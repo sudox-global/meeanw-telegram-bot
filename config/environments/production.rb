@@ -93,6 +93,7 @@ Rails.application.configure do
 
   # Set application domain, to be able to run `rake telegram:bot:set_webhook`
   routes.default_url_options = {host: 'telegram-meeanw.thnkandgrow.com', protocol: 'https'}
+  # curl https://api.telegram.org/bot5575373828:AAFUKt_trsZgpv7pEC6dHL9a3P1UWoPanfA/setWebhook\?url\=https://telegram-meeanw.thnkandgrow.com//telegram/f-fmOp-5m49JLLNnX5fgdKXem04
 
   # Configure session store for telegram bot.
   config.active_record.sqlite3_production_warning = false

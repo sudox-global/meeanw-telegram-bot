@@ -56,6 +56,7 @@ task setup: :remote_environment do
   command %[mkdir -p "#{fetch(:shared_path)}/public/assets"]
   command %[mkdir -p "#{fetch(:shared_path)}/log"]
   command %[mkdir -p "#{fetch(:shared_path)}/tmp/cache"]
+  command %[mkdir -p "#{fetch(:shared_path)}/tmp/sockets"]
 end
 
 desc 'Deploys the current version to the server.'
