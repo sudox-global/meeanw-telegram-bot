@@ -40,19 +40,19 @@ task :remote_environment do
   # invoke :'rbenv:load'
 
   # For those using RVM, use this to load an RVM version@gemset.
-  invoke :'rvm:use', 'ruby-3.0.5@default'
+  invoke :'rvm:use', 'ruby-3.2.2@default'
 end
 
 # Put any custom commands you need to run at setup
 # All paths in `shared_dirs` and `shared_paths` will be created on their own.
 task setup: :remote_environment do
   # command %{rbenv install 3.0.5 --skip-existing}
-  command %{rvm install ruby-3.0.5}
+  command %{rvm install ruby-3.2.2}
   command %{gem install bundler}
   command %[touch "#{fetch(:shared_path)}/config/master.key"]
   command %[touch "#{fetch(:shared_path)}/config/puma.rb"]
   command %[touch "#{fetch(:shared_path)}/config/credentials/production.key"]
-  command %[touch "#{fetch(:shared_path)}/config/database.yml"]
+  # command %[touch "#{fetch(:shared_path)}/config/database.yml"]
   command %[mkdir -p "#{fetch(:shared_path)}/public/assets"]
   command %[mkdir -p "#{fetch(:shared_path)}/log"]
   command %[mkdir -p "#{fetch(:shared_path)}/tmp/cache"]
@@ -75,9 +75,10 @@ task deploy: :remote_environment do
 
     # TODO: DEPLOY PUMA WITH SYSTEMCTL
     on :launch do
+      command %{sudo /usr/bin/rm /etc/nginx/sites-enabled/meeanw-telegram.conf}
+      command %{sudo /usr/bin/ln -s /var/www/meeanw-telegram-bot/current/config/deploy/meeanw-telegram.conf /etc/nginx/sites-enabled/meeanw-telegram.conf}
+      command %{sudo /usr/sbin/service nginx restart}
       command %{sudo /usr/sbin/service meeanw-telegram-puma restart}
-      # command %{sudo /usr/sbin/service meeanw-telegram-sidekiq restart}
-      # command %{RAILS_ENV=#{fetch(:rails_env)} /usr/share/rvm/gems/ruby-3.2.2/bin/bundle exec rake recurring_job:schedule_all}
     end
   end
 end
